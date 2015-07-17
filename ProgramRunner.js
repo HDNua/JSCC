@@ -377,7 +377,8 @@ function initProgramRunner(program) {
     }
     
     // 진입점을 지정합니다.
-    runner.entrypoint = Memory.bytePtr -= (15 + NEWLINE.length);
+//    alert(NEWLINE.length);
+    runner.entrypoint = Memory.bytePtr -= (15 + 2);
     
     runner.baseOfData = baseOfData;
     runner.sizeOfData = sizeOfData;

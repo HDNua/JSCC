@@ -1,3 +1,28 @@
+// common constant definitions
+function initHandyConstant() {
+  var gui = require('nw.gui'); // get gui module
+  var platform = gui.App.argv[1]; // get platform string
+  
+  switch (platform) {
+    case 'win32':
+    case 'win64':
+      window.NEWLINE = '\r\n';  // new line character
+      window.DIR_SEPERATOR = '\\';
+      break;
+      
+    case 'linux':
+      window.NEWLINE = '\n';
+      window.DIR_SEPERATOR = '/';
+      break;
+      
+    case 'darwin':
+      window.NEWLINE = '\n';
+      window.DIR_SEPERATOR = '/';
+      break;
+  }
+}
+
+// method definitions
 /**
   @param {string} msg
   @param {object} data
@@ -65,7 +90,7 @@ function initHandyFileSystem() {
   */
   function load(filename) {
     try {
-      var filepath = this.dir + '\\' + filename;
+      var filepath = this.dir + DIR_SEPERATOR + filename;
       return this.fso.readFileSync(filepath);
     } catch (ex) {
       return null;
@@ -79,7 +104,7 @@ function initHandyFileSystem() {
   */
   function save(filename, data) {
     try {
-      var filepath = this.dir + '\\' + filename;
+      var filepath = this.dir + DIR_SEPERATOR + filename;
       this.fso.writeFileSync(filepath, data);
       return true;
     } catch (ex) {
@@ -107,13 +132,13 @@ function initHandyFileSystem() {
   window['HandyFileSystem'] = hfs;
 }
 
-var NEWLINE = '\r\n';
-
 /**
 Handy 라이브러리 기본 객체인 Handy 싱글톤 객체를 초기화합니다.
 */
 function initHandy() {
   var handy = {}; // 빈 객체 생성
+  
+  initHandyConstant(); // initialize constant by platform
   
   /**
   형식화된 문자열을 반환합니다.
