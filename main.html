@@ -1,0 +1,98 @@
+<html>
+  <head>
+
+    <!-- Handy 프로젝트의 시작점입니다. -->
+    <script src="handy.js"></script>
+
+    <!-- 공용 모듈 목록입니다. -->
+    <script src="common.js"></script>
+    <script src="StringBuffer.js"></script>
+    
+    <!-- 컴파일러를 위한 모듈 목록입니다. -->
+    <script src="Machine.js"></script>
+    <script src="MachineSystem.js"></script>
+    <script src="MachineMemory.js"></script>
+    <script src="MachineProcessor.js"></script>
+    <script src="MachineOperation.js"></script>
+    <script src="Program.js"></script>
+    <script src="ProgramStream.js"></script>
+    <script src="ProgramRunner.js"></script>
+    <script src="ProgramLinker.js"></script>
+    <script src="ProgramCompiler.js"></script>
+    <script src="ProgramCompilerTranslator.js"></script>
+    <script src="ProgramCompilerDeclaration.js"></script>
+    <script src="ProgramCompilerExpression.js"></script>
+    <script src="ProgramCompilerStatement.js"></script>
+    
+    <script>
+      function main() {
+        if (Program.Compiler.compile('main.c') != 0)
+          return;
+        Program.Linker.load('main.hdo');
+        Program.Linker.link('program.hdx');
+        Program.Runner.load('program.hdx');
+        Program.Runner.run();
+        Program.statusIndex = Program.status.length - 1;
+        Program.show();
+      }
+      function init() {
+        initHandyFileSystem();
+        initStyle();
+        initMachine();
+        initProgram();
+      }
+      
+      function initStyle() {
+        var logStream = document.getElementById('HandyLogStream');
+        logStream.style.width = '100%';
+        logStream.style.height = '25%';
+        
+        var outStream = document.getElementById('outputStream');
+        outStream.style.width = '49%';
+        outStream.style.height = '34%';
+        
+        var memStream = document.getElementById('memoryStream');
+        memStream.style.width = '50%';
+        memStream.style.height = '34%';
+        
+        var regStream = document.getElementById('registerStream');
+        regStream.style.width = '49%';
+        regStream.style.height = '34%';
+        
+        var expStream = document.getElementById('expressionStream');
+        expStream.style.width = '50%';
+        expStream.style.height = '34%';
+      }
+    </script>
+    
+  </head>
+  <body>
+    <input id='inputFileName'>
+    <input type="button" value='Run' onclick='Program.run()'>
+    <input type="button" value='Undo' onclick='Program.undo()'>
+    <input type="button" value='Redo' onclick='Program.redo()'><br>
+    <textarea id='outputStream'></textarea>
+    <textarea id='memoryStream'></textarea><br>
+    <textarea id='registerStream'></textarea>
+    <textarea id='expressionStream'></textarea><br>
+    <textarea id='HandyLogStream'></textarea>
+    <script>
+      initHandy();
+      init();
+      main();
+      
+      try {
+//        initHandy();
+//        init();
+//        main();
+      } catch (ex) {
+        if (ex instanceof Exception) {
+          log(ex);
+        } else {
+          // Exception 예외 객체가 아니라면 여기서 처리하지 않습니다.
+          throw ex;
+        }
+      }
+    </script>
+  </body>
+</html>

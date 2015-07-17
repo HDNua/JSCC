@@ -1,0 +1,37 @@
+.data
+
+.code
+push ebp
+mov ebp,esp
+sub esp,4
+sub esp,8
+mov eax,10
+push eax
+lea ebx,[ebp-8]
+mov eax,[ebx]
+pop eax
+mov [ebx],eax
+mov eax,20
+push eax
+lea ebx,[ebp-12]
+mov eax,[ebx]
+pop eax
+mov [ebx],eax
+lea ebx,[ebp-12]
+mov eax,[ebx]
+push eax
+lea ebx,[ebp-8]
+mov eax,[ebx]
+pop edx
+add eax,edx
+push eax
+lea ebx,[ebp-4]
+mov eax,[ebx]
+pop eax
+mov [ebx],eax
+mov esp,ebp
+pop ebp
+ret
+
+call 0x0004
+exit
